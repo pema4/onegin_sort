@@ -1,6 +1,3 @@
-# set(INCLUDE_DIR "${OneginSort_SOURCE_DIR}/include")
-# set(HEADER_LIST "${INCLUDE_DIR}/onegin/hello.h"/)
-
 # library for printing "hello, world"
 add_executable(
     main
@@ -8,7 +5,6 @@ add_executable(
     # ${HEADER_LIST}
 )
 
-# target_include_directories(main PUBLIC ${INCLUDE_DIR})
-target_include_directories(main PUBLIC ${OneginSort_SOURCE_DIR}/include)
+target_include_directories(main PUBLIC ${PROJET_SOURCE_DIR}/include)
 
-target_link_libraries(main hello)
+target_link_libraries(main onegin)
