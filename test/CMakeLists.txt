@@ -6,6 +6,7 @@ add_executable(
     tests
     sort.cpp
     stringpart.cpp
+    utf8.cpp
     utils.cpp
 )
 

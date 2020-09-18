@@ -51,9 +51,20 @@ TEST(compare_letters, empty_string) {
     EXPECT_FALSE(compare_letters_reversed(&not_empty_part, &empty_part));
 }
 
-TEST(compare_letters, large_test) {
-    char a[] = "привет";
-    size_t as = sizeof(a);
+TEST(compare_letters, utf8_test_1) {
+    char first[] =  "hi! привет! bye!";
+    StringPart first_part = {
+        .begin = first,
+        .end = first + sizeof(first)
+    };
+    char second[] = "hi! приведи ещё 5 друзей и получи подарок!";
+    StringPart second_part = {
+        .begin = second,
+        .end = second + sizeof(second)
+    };
+
+    EXPECT_FALSE(compare_letters(&first_part, &second_part));
+    EXPECT_TRUE(compare_letters(&second_part, &first_part));
 }
 
 TEST(split, empty_text) {

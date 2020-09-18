@@ -1,5 +1,6 @@
 #include "onegin/stringpart.h"
 #include "ctype.h"
+#include "onegin/utf8.h"
 #include "stdlib.h"
 
 bool compare_letters(const StringPart *first, const StringPart *second) {
@@ -7,44 +8,45 @@ bool compare_letters(const StringPart *first, const StringPart *second) {
     const char *second_curr = second->begin;
 
     while (true) {
-        while (first_curr < first->end && !isalpha(*first_curr))
-            ++first_curr;
+        while (first_curr < first->end && !utf8_is_letter(first_curr))
+            first_curr = utf8_find_next(first_curr);
 
-        while (second_curr < second->end && !isalpha(*second_curr))
-            ++second_curr;
+        while (second_curr < second->end && !utf8_is_letter(second_curr))
+            second_curr = utf8_find_next(second_curr);
 
         if (first_curr >= first->end)
             return second_curr < second->end;
 
-        if (*first_curr != *second_curr)
-            return *first_curr < *second_curr;
+        if (!utf8_equal(first_curr, second_curr))
+            return utf8_compare(first_curr, second_curr);
 
-        ++first_curr;
-        ++second_curr;
+        first_curr = utf8_find_next(first_curr);
+        second_curr = utf8_find_next(second_curr);
     }
 
     return false;
 }
 
-bool compare_letters_reversed(const StringPart *first, const StringPart *second) {
-    const char *first_curr = first->end - 1;
-    const char *second_curr = second->end - 1;
+bool compare_letters_reversed(const StringPart *first,
+                              const StringPart *second) {
+    const char *first_curr = utf8_find_start(first->end - 1);
+    const char *second_curr = utf8_find_start(second->end - 1);
 
     while (true) {
-        while (first_curr >= first->begin && !isalpha(*first_curr))
-            --first_curr;
+        while (first_curr >= first->begin && !utf8_find_start(first_curr))
+            first_curr = utf8_find_start(first_curr - 1);
 
-        while (second_curr >= second->begin && !isalpha(*second_curr))
-            --second_curr;
+        while (second_curr >= second->begin && !utf8_find_start(second_curr))
+            second_curr = utf8_find_start(second_curr - 1);
 
         if (first_curr < first->begin)
             return second_curr >= second->begin;
 
-        if (*first_curr != *second_curr)
-            return *first_curr < *second_curr;
+        if (!utf8_equal(first_curr, second_curr)) //todo
+            return utf8_compare(first_curr, second_curr);
 
-        --first_curr;
-        --second_curr;
+        first_curr = utf8_find_start(first_curr - 1);
+        second_curr = utf8_find_start(second_curr - 1);
     }
 
     return false;
@@ -53,12 +55,13 @@ bool compare_letters_reversed(const StringPart *first, const StringPart *second)
 }
 
 bool letters_comparator(const void *first, const void *second) {
-    return compare_letters((const StringPart *)first, (const StringPart *)second);
+    return compare_letters((const StringPart *)first,
+                           (const StringPart *)second);
 }
 
 bool letters_reversed_comparator(const void *first, const void *second) {
     return compare_letters_reversed((const StringPart *)first,
-                                  (const StringPart *)second);
+                                    (const StringPart *)second);
 }
 
 size_t split(const char *text, char delim, StringPart **result) {

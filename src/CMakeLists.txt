@@ -4,6 +4,7 @@ add_library(
     onegin
     sort.cpp
     stringpart.cpp
+    utf8.cpp
     utils.cpp
 )
 
