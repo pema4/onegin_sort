@@ -2,7 +2,7 @@
 #include "stddef.h"
 #include "gtest/gtest.h"
 
-TEST(compare_words, one_word) {
+TEST(compare_letters, one_word) {
     char hello[] = "hello";
     StringPart first = {
         .begin = hello,
@@ -15,24 +15,24 @@ TEST(compare_words, one_word) {
         .end = help + sizeof(help) - 1,
     };
 
-    EXPECT_TRUE(compare_words(&first, &second));
-    EXPECT_TRUE(compare_words_reversed(&first, &second));
-    EXPECT_FALSE(compare_words(&second, &first));
-    EXPECT_FALSE(compare_words_reversed(&second, &first));
+    EXPECT_TRUE(compare_letters(&first, &second));
+    EXPECT_TRUE(compare_letters_reversed(&first, &second));
+    EXPECT_FALSE(compare_letters(&second, &first));
+    EXPECT_FALSE(compare_letters_reversed(&second, &first));
 }
 
-TEST(compare_words, same_word) {
+TEST(compare_letters, same_word) {
     char hello[] = "Hello, world!";
     StringPart part = {
         .begin = hello,
         .end = hello + sizeof(hello) - 1,
     };
 
-    EXPECT_FALSE(compare_words(&part, &part));
-    EXPECT_FALSE(compare_words_reversed(&part, &part));
+    EXPECT_FALSE(compare_letters(&part, &part));
+    EXPECT_FALSE(compare_letters_reversed(&part, &part));
 }
 
-TEST(compare_words, empty_string) {
+TEST(compare_letters, empty_string) {
     char empty[] = "";
     StringPart empty_part{
         .begin = empty,
@@ -45,13 +45,13 @@ TEST(compare_words, empty_string) {
         .end = not_empty + sizeof(not_empty) - 1,
     };
 
-    EXPECT_TRUE(compare_words(&empty_part, &not_empty_part));
-    EXPECT_FALSE(compare_words(&not_empty_part, &empty_part));
-    EXPECT_TRUE(compare_words_reversed(&empty_part, &not_empty_part));
-    EXPECT_FALSE(compare_words_reversed(&not_empty_part, &empty_part));
+    EXPECT_TRUE(compare_letters(&empty_part, &not_empty_part));
+    EXPECT_FALSE(compare_letters(&not_empty_part, &empty_part));
+    EXPECT_TRUE(compare_letters_reversed(&empty_part, &not_empty_part));
+    EXPECT_FALSE(compare_letters_reversed(&not_empty_part, &empty_part));
 }
 
-TEST(compare_words, large_test) {
+TEST(compare_letters, large_test) {
     char a[] = "привет";
     size_t as = sizeof(a);
 }

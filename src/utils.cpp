@@ -11,13 +11,12 @@ char *read_file(FILE *input) {
             buffer + file_length, // where to store a new portion of the file.
             1,
             buffer_length - file_length, // we can read only this much
-            input
-        );
+            input);
 
-        // if buffer is not fully filled, then we read whole file. 
+        // if buffer is not fully filled, then we read whole file.
         if (file_length < buffer_length)
             break;
-        
+
         // otherwise reallocate and read again
         buffer_length *= 2;
         buffer = (char *)realloc(buffer, buffer_length);

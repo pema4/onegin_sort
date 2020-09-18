@@ -1,6 +1,5 @@
-#include "gtest/gtest.h"
-
 #include "onegin/sort.h"
+#include "gtest/gtest.h"
 
 bool compare_int(const void *left, const void *right) {
     int left_int = *((int *)left);

@@ -15,14 +15,14 @@ int main(int argc, char **argv) {
         fwrite(parts[i].begin, 1, parts[i].end - parts[i].begin + 1, stdout);
     }
 
-    sort(parts, parts_number, sizeof(*parts), words_comparator);
+    sort(parts, parts_number, sizeof(*parts), letters_comparator);
     puts("Normal sort:");
     for (int i = 0; i < parts_number; ++i) {
         printf("%d: ", i);
         fwrite(parts[i].begin, 1, parts[i].end - parts[i].begin + 1, stdout);
     }
 
-    sort(parts, parts_number, sizeof(*parts), words_reversed_comparator);
+    sort(parts, parts_number, sizeof(*parts), letters_reversed_comparator);
     puts("Reversed sort:");
     for (int i = 0; i < parts_number; ++i) {
         fwrite(parts[i].begin, 1, parts[i].end - parts[i].begin + 1, stdout);

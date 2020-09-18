@@ -9,7 +9,7 @@ void sort(void *arr, size_t N, size_t elem_size, Comparator comp) {
     assert(arr != NULL);
     assert(N > 0);
     assert(elem_size > 0);
-    
+
     bubble_sort((char *)arr, N, elem_size, comp);
 }
 

@@ -1,5 +1,5 @@
-#include "gtest/gtest.h"
 #include "onegin/utils.h"
+#include "gtest/gtest.h"
 
 TEST(read_file, empty_file) {
     char text[] = "";
