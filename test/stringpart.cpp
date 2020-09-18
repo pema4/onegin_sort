@@ -1,9 +1,6 @@
+#include "onegin/stringpart.h"
 #include "stddef.h"
 #include "gtest/gtest.h"
-
-#include "onegin/stringpart.h"
-
-TEST(compare_words, should_pass) { ASSERT_TRUE(1 == 1); }
 
 TEST(compare_words, one_word) {
     char hello[] = "hello";
@@ -59,7 +56,7 @@ TEST(compare_words, large_test) {
     size_t as = sizeof(a);
 }
 
-TEST(split, empty) {
+TEST(split, empty_text) {
     char text[] = "";
     StringPart *result = NULL;
     size_t result_length = split(text, '\n', &result);
@@ -67,24 +64,42 @@ TEST(split, empty) {
     free(result);
 }
 
-TEST(split, one_part) {
+TEST(split, one_line) {
     char text[] = "Hello\n";
     StringPart *result = NULL;
     size_t result_length = split(text, '\n', &result);
     ASSERT_EQ(1, result_length);
-    EXPECT_EQ(text, result[0].begin); // 'H' symbol in the text
+    EXPECT_EQ(text, result[0].begin);   // 'H' symbol in the text
     EXPECT_EQ(text + 5, result[0].end); // '\n' symbol in the text
     free(result);
 }
 
-TEST(split, two_parts) {
+TEST(split, two_line) {
     char text[] = "Hello\nthere \nguys";
     StringPart *result = NULL;
     size_t result_length = split(text, '\n', &result);
     ASSERT_EQ(2, result_length);
-    EXPECT_EQ(text, result[0].begin);       // 'H' symbol in the text
-    EXPECT_EQ(text + 5, result[0].end);     // '\n' symbol in the text
-    EXPECT_EQ(text + 6, result[1].begin);   // 't' symbol
-    EXPECT_EQ(text + 12, result[1].end);    // second '\n'
+    EXPECT_EQ(text, result[0].begin);     // 'H' symbol in the text
+    EXPECT_EQ(text + 5, result[0].end);   // '\n' symbol in the text
+    EXPECT_EQ(text + 6, result[1].begin); // 't' symbol
+    EXPECT_EQ(text + 12, result[1].end);  // second '\n'
     free(result);
+}
+
+TEST(split, empty_lines) {
+    char text[] = "\n\n\n";
+    StringPart *result = NULL;
+    size_t result_length = split(text, '\n', &result);
+    EXPECT_EQ(0, result_length);
+}
+
+TEST(split, five_lines_and_some_are_empty) {
+    char text[] = "\nhello\n\nthere\n\n";
+    StringPart *result = NULL;
+    size_t result_length = split(text, '\n', &result);
+    ASSERT_EQ(2, result_length);
+    EXPECT_EQ(text + 1, result[0].begin);
+    EXPECT_EQ(text + 6, result[0].end);
+    EXPECT_EQ(text + 8, result[1].begin);
+    EXPECT_EQ(text + 13, result[1].end);
 }

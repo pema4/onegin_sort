@@ -69,13 +69,15 @@ size_t split(const char *text, char delim, StringPart **result) {
     char curr_char = 0;
     while ((curr_char = *text) != '\0') {
         if (curr_char == delim) {
-            (*result)[result_index] = {.begin = part_begin, .end = text };
-            part_begin = text + 1;
-            ++result_index;
-            if (result_index == result_length) {
-                result_length *= 2;
-                *result = (StringPart *)realloc(*result, result_length * sizeof(StringPart));
+            if (part_begin != text) {
+                (*result)[result_index] = {.begin = part_begin, .end = text };
+                ++result_index;
+                if (result_index == result_length) {
+                    result_length *= 2;
+                    *result = (StringPart *)realloc(*result, result_length * sizeof(StringPart));
+                }
             }
+            part_begin = text + 1;
         }
         ++text;
     }
