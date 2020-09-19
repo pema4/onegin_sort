@@ -33,10 +33,10 @@ bool compare_letters_reversed(const StringPart *first,
     const char *second_curr = utf8_find_start(second->end - 1);
 
     while (true) {
-        while (first_curr >= first->begin && !utf8_find_start(first_curr))
+        while (first_curr >= first->begin && !utf8_is_letter(first_curr))
             first_curr = utf8_find_start(first_curr - 1);
 
-        while (second_curr >= second->begin && !utf8_find_start(second_curr))
+        while (second_curr >= second->begin && !utf8_is_letter(second_curr))
             second_curr = utf8_find_start(second_curr - 1);
 
         if (first_curr < first->begin)
@@ -48,8 +48,6 @@ bool compare_letters_reversed(const StringPart *first,
         first_curr = utf8_find_start(first_curr - 1);
         second_curr = utf8_find_start(second_curr - 1);
     }
-
-    return false;
 
     return false;
 }

@@ -3,6 +3,9 @@
  * @brief Algorithms for sorting.
  */
 
+#ifndef SORT_H
+#define SORT_H
+
 #include "stddef.h"
 
 /**
@@ -34,3 +37,5 @@ void sort(void *arr, size_t N, size_t elem_size, Comparator comp);
  * @param [in] comp      Comparator to be used.
  */
 bool is_sorted(void *arr, size_t N, size_t elem_size, Comparator comp);
+
+#endif // SORT_H

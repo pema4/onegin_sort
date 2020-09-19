@@ -1,34 +1,55 @@
 #include "onegin/sort.h"
 
 #include "assert.h"
+#include "string.h"
+#include "stdlib.h"
 
-void bubble_sort(char *arr, size_t N, size_t elem_size, Comparator comp);
-void swap(char *a, char *b, size_t size);
+static void quick_sort(char *begin, char *end, size_t elem_size,
+                       Comparator comp);
+static void swap(char *a, char *b, size_t size);
 
 void sort(void *arr, size_t N, size_t elem_size, Comparator comp) {
     assert(arr != NULL);
     assert(N > 0);
     assert(elem_size > 0);
 
-    bubble_sort((char *)arr, N, elem_size, comp);
+    quick_sort((char *)arr, (char *)arr + elem_size * (N - 1), elem_size, comp);
 }
 
-void bubble_sort(char *arr, size_t N, size_t elem_size, Comparator comp) {
-    bool something_changed = true;
-    for (int i = 0; i < N && something_changed; ++i) {
-        something_changed = false;
-        char *end = arr + (N - 1) * elem_size;
-        for (char *curr = arr; curr != end; curr += elem_size) {
-            char *next = curr + elem_size;
-            if (!comp(curr, next)) {
-                swap(curr, next, elem_size);
-                something_changed = true;
-            }
+static void quick_sort(char *first, char *last, size_t elem_size,
+                       Comparator comp) {
+    // if sorted part consists of one or zero elements, then it is sorted.
+    if (first + elem_size > last)
+        return;
+
+    char *pivot = (char *)calloc(1, elem_size);
+    size_t pivot_offset = ((last - first) / (elem_size) + 1) / 2 * elem_size;
+    memcpy(pivot, first + pivot_offset, elem_size);
+
+    char *low = first;
+    char *high = last;
+    while (true) {
+        while (low <= last && comp(low, pivot))
+            low += elem_size;
+
+        while (high >= first && comp(pivot, high))
+            high -= elem_size;
+
+        if (low > high) {
+            free(pivot);
+            break;
         }
+
+        swap(low, high, elem_size);
+        low += elem_size;
+        high -= elem_size;
     }
+
+    quick_sort(first, high, elem_size, comp);
+    quick_sort(low, last, elem_size, comp);
 }
 
-void swap(char *a, char *b, size_t size) {
+static void swap(char *a, char *b, size_t size) {
     char *end_a = a + size;
     while (a != end_a) {
         char temp = *a;
