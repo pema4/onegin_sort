@@ -14,8 +14,8 @@ void sort(void *arr, size_t N, size_t elem_size, Comparator comp) {
 }
 
 void bubble_sort(char *arr, size_t N, size_t elem_size, Comparator comp) {
-    bool something_changed = false;
-    do {
+    bool something_changed = true;
+    for (int i = 0; i < N && something_changed; ++i) {
         something_changed = false;
         char *end = arr + (N - 1) * elem_size;
         for (char *curr = arr; curr != end; curr += elem_size) {
@@ -25,7 +25,7 @@ void bubble_sort(char *arr, size_t N, size_t elem_size, Comparator comp) {
                 something_changed = true;
             }
         }
-    } while (something_changed);
+    }
 }
 
 void swap(char *a, char *b, size_t size) {
@@ -45,7 +45,7 @@ bool is_sorted(void *arr, size_t N, size_t elem_size, Comparator comp) {
     char *curr = (char *)arr;
     char *end = curr + (N - 1) * elem_size;
     while (curr != end) {
-        if (!comp(curr, curr + elem_size))
+        if (comp(curr + elem_size, curr))
             return false;
         curr += elem_size;
     }
