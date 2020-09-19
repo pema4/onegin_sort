@@ -76,7 +76,15 @@ TEST(sort, large_array_1) {
 }
 
 TEST(sort, large_array_2) {
-    int arr[] = {5, 1, 2, 4, 3, 0};
+    int arr[] = {5, 1, 2, 1, 4, 3, 0};
+    size_t elem_size = sizeof(*arr);
+    size_t N = sizeof(arr) / elem_size;
+    sort(arr, N, elem_size, compare_int);
+    ASSERT_TRUE(is_sorted(arr, N, elem_size, compare_int));
+}
+
+TEST(sort, large_descending_array) {
+    int arr[] = {5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 0, 1};
     size_t elem_size = sizeof(*arr);
     size_t N = sizeof(arr) / elem_size;
     sort(arr, N, elem_size, compare_int);
