@@ -4,6 +4,9 @@ project(OneginSort VERSION 0.1
                    DESCRIPTION "Onegin sort program"
                    LANGUAGES CXX)
 
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wfloat-equal")
+set(CMAKE_EXPORT_COMPILE_COMMANDS YES)
+
 add_subdirectory(src)
 add_subdirectory(apps)
 
