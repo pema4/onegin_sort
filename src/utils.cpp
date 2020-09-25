@@ -1,6 +1,8 @@
 #include "onegin/utils.h"
 #include "stdlib.h"
 
+const int INITIAL_BUFFER_SIZE = 16;
+
 char *read_file(FILE *input) {
     size_t buffer_length = INITIAL_BUFFER_SIZE;
     char *buffer = (char *)calloc(buffer_length, 1);

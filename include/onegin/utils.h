@@ -5,11 +5,7 @@
 
 #include "stdio.h"
 
-#ifdef NDEBUG
-const int INITIAL_BUFFER_SIZE = 16;
-#else
-const int INITIAL_BUFFER_SIZE = 1;
-#endif
+extern const int INITIAL_BUFFER_SIZE;
 
 /**
  * @brief Returns file content, terminated by `'\0'`.

@@ -3,8 +3,8 @@
 #include "ctype.h"
 #include "stddef.h"
 
-int utf8_length(const char *utf8) {
-    unsigned char first_byte = *utf8;
+int utf8_length(const char *symbol) {
+    unsigned char first_byte = *symbol;
 
     // if starts with 0
     if (0x00 == (first_byte >> 7))
@@ -26,6 +26,7 @@ int utf8_length(const char *utf8) {
 }
 
 static bool is_continuation(char byte) {
+    // continuation byte starts with 10 (in binary)
     return 0x02 == ((unsigned char)byte >> 6);
 }
 

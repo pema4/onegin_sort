@@ -107,7 +107,3 @@ TEST(utf8_find_next, two_bytes) {
     EXPECT_EQ(yes + 2, utf8_find_next(yes));
     EXPECT_EQ(yes + 2, utf8_find_next(yes + 1));
 }
-
-TEST(utf8_find_next, three_bytes) {
-    char ruble[] = "\u20BD! This is a ruble sign";
-}

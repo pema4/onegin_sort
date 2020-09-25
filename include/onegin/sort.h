@@ -29,7 +29,7 @@ typedef bool Comparator(const void *a, const void *b);
 void sort(void *arr, size_t N, size_t elem_size, Comparator comp);
 
 /**
- * @brief Returns if array is in ascending order or not.
+ * @brief Checks if array is in non-descending order.
  *
  * @param [in] arr       Array to be checked. Must not be NULL.
  * @param [in] N         Size of the array.

@@ -3,6 +3,9 @@
  * @brief The StringPart struct and helper functions for it.
  */
 
+#ifndef STRINGPART_H
+#define STRINGPART_H
+
 #include "stddef.h"
 
 /**
@@ -10,18 +13,18 @@
  */
 typedef struct StringPart {
     /**
-     * @brief Points to the first symbol of some part of text.
+     * @brief Pointer to the first symbol of some part of text.
      */
     const char *begin;
 
     /**
-     * @brief Points to the first symbol after the end of some part of text.
+     * @brief Pointer to the first symbol after the end of some part of text.
      */
     const char *end;
 } StringPart;
 
 /**
- * @brief Compares letters in two parts in alphabetical order.
+ * @brief Compares two parts by their letters (in alphabetical order)
  *
  * Punctuation, numbers and other symbols are ignored and not used in
  * comparison.
@@ -29,13 +32,14 @@ typedef struct StringPart {
  * @param [in] first  First ::StringPart to be compared.
  * @param [in] second Second ::StringPart to be compared.
  *
- * @return `true` if the first part is less than the second.
+ * @return `true` if first part should be placed before second in alphabetical
+ * order.
  */
 bool compare_letters(const StringPart *first, const StringPart *second);
 
 /**
- * @brief Compares letters in two parts in alphabetical order starting from the
- * end.
+ * @brief Compares two parts by their letters, starting from the end of both
+ * parts (in alphabetical order)
  *
  * Punctuation, numbers and other symbols are ignored and not used in
  * comparison.
@@ -43,7 +47,8 @@ bool compare_letters(const StringPart *first, const StringPart *second);
  * @param [in] first  First ::StringPart to be compared.
  * @param [in] second Second ::StringPart to be compared.
  *
- * @return `true` if the first part is less than the second.
+ * @return `true` if first part should be placed before second in alphabetical
+ * order.
  */
 bool compare_letters_reversed(const StringPart *first,
                               const StringPart *second);
@@ -56,7 +61,8 @@ bool compare_letters_reversed(const StringPart *first,
  * @param [in] first  First ::StringPart to be compared.
  * @param [in] second Second ::StringPart to be compared.
  *
- * @return `true` if the first part is less than the second.
+ * @return `true` if first part should be placed before second in alphabetical
+ * order.
  */
 bool letters_comparator(const void *first, const void *second);
 
@@ -80,3 +86,5 @@ bool letters_reversed_comparator(const void *first, const void *second);
  * @param [out] result ::StringPart array to store result in.
  */
 size_t split(const char *text, char delim, StringPart **result);
+
+#endif // STRINGPART
