@@ -1,8 +1,8 @@
 #include "onegin/sort.h"
 
 #include "assert.h"
-#include "string.h"
 #include "stdlib.h"
+#include "string.h"
 
 static void quick_sort(char *begin, char *end, size_t elem_size,
                        Comparator comp);

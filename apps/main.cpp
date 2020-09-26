@@ -6,42 +6,12 @@
 #include "stdlib.h"
 #include "string.h"
 
-int help() {
-    puts("Usage: main [NORMAL_OUT] [SORTED_OUT] [REVERSED_SORTED_OUT]");
-    return 0;
-}
+int help();
 
-int unknown_command() {
-    puts("Unknown command! Use \"-h\" or \"--help\" to view help");
-    return -1;
-}
+int unknown_command();
 
 int do_sort(FILE *in, FILE *normal_out, FILE *sorted_out,
-            FILE *reversed_sorted_out) {
-    char *text = read_file(in);
-    StringPart *parts = NULL;
-    int parts_number = split(text, '\n', &parts);
-
-    for (int i = 0; i < parts_number; ++i)
-        fwrite(parts[i].begin, 1, parts[i].end - parts[i].begin + 1,
-               normal_out);
-
-    sort(parts, parts_number, sizeof(*parts), letters_comparator);
-    for (int i = 0; i < parts_number; ++i)
-        fwrite(parts[i].begin, 1, parts[i].end - parts[i].begin + 1,
-               sorted_out);
-    assert(is_sorted(parts, parts_number, sizeof(*parts), letters_comparator));
-
-    sort(parts, parts_number, sizeof(*parts), letters_reversed_comparator);
-    for (int i = 0; i < parts_number; ++i)
-        fwrite(parts[i].begin, 1, parts[i].end - parts[i].begin + 1,
-               reversed_sorted_out);
-    assert(is_sorted(parts, parts_number, sizeof(*parts),
-                     letters_reversed_comparator));
-
-    free(parts);
-    return 0;
-}
+            FILE *reversed_sorted_out);
 
 int main(int argc, char **argv) {
     switch (argc) {
@@ -66,4 +36,44 @@ int main(int argc, char **argv) {
     default:
         return unknown_command();
     }
+}
+
+int help() {
+    puts("Usage: main [NORMAL_OUT] [SORTED_OUT] [REVERSED_SORTED_OUT]");
+    return 0;
+}
+
+int unknown_command() {
+    puts("Unknown command! Use \"-h\" or \"--help\" to view help");
+    return -1;
+}
+
+int do_sort(FILE *in, FILE *normal_out, FILE *sorted_out,
+            FILE *reversed_sorted_out) {
+    char *text = read_file(in);
+    StringPart *parts = NULL;
+    int parts_number = split(text, '\n', &parts);
+
+    // normal output
+    for (int i = 0; i < parts_number; ++i)
+        fwrite(parts[i].begin, 1, parts[i].end - parts[i].begin + 1,
+               normal_out);
+
+    // sorted output
+    sort(parts, parts_number, sizeof(*parts), letters_comparator);
+    for (int i = 0; i < parts_number; ++i)
+        fwrite(parts[i].begin, 1, parts[i].end - parts[i].begin + 1,
+               sorted_out);
+    assert(is_sorted(parts, parts_number, sizeof(*parts), letters_comparator));
+
+    // reversed sorted output
+    sort(parts, parts_number, sizeof(*parts), letters_reversed_comparator);
+    for (int i = 0; i < parts_number; ++i)
+        fwrite(parts[i].begin, 1, parts[i].end - parts[i].begin + 1,
+               reversed_sorted_out);
+    assert(is_sorted(parts, parts_number, sizeof(*parts),
+                     letters_reversed_comparator));
+
+    free(parts);
+    return 0;
 }

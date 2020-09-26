@@ -42,7 +42,7 @@ bool compare_letters_reversed(const StringPart *first,
         if (first_curr < first->begin)
             return second_curr >= second->begin;
 
-        if (!utf8_equal(first_curr, second_curr)) //todo
+        if (!utf8_equal(first_curr, second_curr)) // todo
             return utf8_compare(first_curr, second_curr);
 
         first_curr = utf8_find_start(first_curr - 1);
